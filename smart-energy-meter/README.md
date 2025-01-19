@@ -87,3 +87,19 @@ data = {
 data_json = json.dumps(data)
 print(data_json)
 publish.single('sensors/energy/heating', payload=data_json, hostname="xxx.xxx.xxx.xxx")
+```
+## Setting up the MQTT Broker
+I'm using [HiveMQ Community](https://github.com/hivemq/hivemq-community-edition) in a very basic setup (but it's up and running for weeks now; see also [hivemq-ce docker image](https://hub.docker.com/r/hivemq/hivemq-ce)).
+```
+podman run --name hivemq-ce -d --restart always -p 1883:1883 docker.io/hivemq/hivemq-ce
+```
+
+For testing purposes I prefere the [Mosquitto Client](https://github.com/eclipse-mosquitto/mosquitto).
+
+```
+sudo apt-get install mosquitto-clients
+```
+
+```
+mosquitto_sub -h xxx.xxx.xxx.xxx -t sensors/energy/heating
+```
