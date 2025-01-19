@@ -14,3 +14,52 @@ I'm using this project to monitor the energy consumption of my Vaillant heating 
 * [Quarkus](https://quarkus.io/) service consuming (quarkus-messaging-mqtt) and persisting (quarkus-hibernate-orm-panache) the data. This service is also running as container on my NUC.
 
 Further details will follow shortly.
+
+
+## Reading data from the energy meter
+While there are many sources and examples for minimalbodbus and RS485, it was not that easy to find the correct parametersv the for OR-WE-517 energy meter.  Credits to "charakterkopf" for his [Post](https://forum.iobroker.net/topic/30953/abfrage-orno-or-we-516-517-modbus-evtl-script-vorhanden) (German). It is also important to convert the read data bytes (IEEE 754 standard).
+
+I have implemented this functionalty in the following Python scripts.
+```python
+# converters.py
+import struct
+import binascii
+import serial
+
+def convert_array_to_float(value):  #Array of int ( 4 byte) to float according IEEE 754
+    converted=str(hex(value))
+    converted=converted.replace('0x', '')
+    if converted=='0':
+       converted='00000000'
+    unpacked=struct.unpack('>f', binascii.unhexlify(converted))[0]
+    return (unpacked)
+```
+
+Register 0100 Hex (256) holds the total active energy consumed.
+
+```python
+# energymeter.py
+import minimalmodbus
+import serial
+from converters import convert_array_to_float
+
+class EnergyMeter:
+
+    def __init__(self, name, port='/dev/ttyUSB0'):
+        #adapter for OR-WE-516
+        self.name=name
+        self.smartmeter = minimalmodbus.Instrument(port, 1,) # port name, slave address (in decimal)
+        self.smartmeter.serial.baudrate = 9600 # Baud
+        self.smartmeter.serial.bytesize = 8
+        self.smartmeter.serial.parity   = serial.PARITY_EVEN # vendor default is EVEN
+        self.smartmeter.serial.stopbits = 1
+        self.smartmeter.serial.timeout  = 0.6  # seconds
+        self.smartmeter.mode = minimalmodbus.MODE_RTU   # rtu or ascii mode
+        self.smartmeter.clear_buffers_before_each_transaction = False
+        self.smartmeter.debug = False # set to "True" for debug mode
+
+
+    def read_total_energy(self) :
+        value = convert_array_to_float(self.smartmeter.read_long(256, 3, False, 0))
+        return (value)
+```
