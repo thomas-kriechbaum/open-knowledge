@@ -17,7 +17,7 @@ Further details will follow shortly.
 
 
 ## Reading data from the energy meter
-While there are many sources and examples for minimalbodbus and RS485, it was not that easy to find the correct parametersv the for OR-WE-517 energy meter.  Credits to "charakterkopf" for his [Post](https://forum.iobroker.net/topic/30953/abfrage-orno-or-we-516-517-modbus-evtl-script-vorhanden) (German). It is also important to convert the read data bytes (IEEE 754 standard).
+While there are many sources and examples for minimalbodbus and RS485, it was not that easy to find the correct parameters the for OR-WE-517 energy meter.  Credits to "charakterkopf" for his [Post](https://forum.iobroker.net/topic/30953/abfrage-orno-or-we-516-517-modbus-evtl-script-vorhanden) (German). It is also important to convert the read data bytes (IEEE 754 standard).
 
 I have implemented this functionalty in the following Python scripts.
 ```python
