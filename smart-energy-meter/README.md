@@ -63,3 +63,27 @@ class EnergyMeter:
         value = convert_array_to_float(self.smartmeter.read_long(256, 3, False, 0))
         return (value)
 ```
+
+## Publishing the data via MQTT
+For publishing the data as JSON event, I'm using the Paho MQTT client. This Python script is called every 5 minutes on my Raspberry Pi via a cron job.
+
+```python
+from energymeter import EnergyMeter
+from datetime import datetime
+import json
+import paho.mqtt.publish as publish
+
+smartmeter = EnergyMeter('we-516')
+today = datetime.today()
+energy = smartmeter.read_total_energy()
+
+data = {
+    "timestamp" : today.isoformat(),
+    "sensor" : smartmeter.name,
+    "data": energy,
+    "unit" : "kWh"
+}
+
+data_json = json.dumps(data)
+print(data_json)
+publish.single('sensors/energy/heating', payload=data_json, hostname="xxx.xxx.xxx.xxx")
