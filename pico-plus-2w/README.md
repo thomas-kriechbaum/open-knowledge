@@ -11,14 +11,30 @@ For short
 * Start a WSL2 instance.
 * Start power shell in admin mode.
 * Connect the Pico board.
-* Within the power shell - once
-  * usbipd list 
-  * usbipd bind --busid 1-3
-* Within the power shell - every time
-  * usbipd attach --wsl --busid 1-3
+
+Power Shell (once)
+``` 
+usbipd list 
+usbipd bind --busid 1-3
+```
+
+Power Shell (every time)
+```
+usbipd attach --wsl --busid 1-3
+```
 
 # Connecting the board within Visual Studio Code
-After the Pico board has been attached, it can be connected using the Visual Studio Code via the following commands
-* WSL: Connect to WSL 
-* Open the desired folder within the Ubuntu instance
-* MicroPico: connect
+After the Pico board has been attached, it can be connected within Visual Studio Code (see [Developing in WSL](https://code.visualstudio.com/docs/remote/wsl), [Micro Pico extension](https://marketplace.visualstudio.com/items?itemName=paulober.pico-w-go), [Raspberry Pi Pico extension](https://marketplace.visualstudio.com/items?itemName=raspberry-pi.raspberry-pi-pico)).
+
+
+Connect to the WSL instance
+```
+WSL: Connect to WSL 
+```
+
+Open the projecte folder within the Ubuntu instance
+
+Connect the Pico board
+```
+ MicroPico: connect
+```
