@@ -1,1 +1,1 @@
-# open-knowledgegi
+# open-knowledge
