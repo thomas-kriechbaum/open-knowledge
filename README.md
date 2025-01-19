@@ -6,4 +6,4 @@ In this repository, I share experiences on smaller projects that I have implemen
 
 
 ## Smart Engery Meter
-[Smart Enerty Meter](smart-energy-meter) to monitor the energy consumtion of my Vaillant heating pump. (Python, Rasperry Pi, MQTT, HiveMQ, Podman, Quarkus, Java, PostreSQL)
+[Smart Enerty Meter](smart-energy-meter) to monitor the energy consumtion of my Vaillant heating pump. (Python, Raspberry Pi, MQTT, HiveMQ, Podman, Quarkus, Java, PostreSQL)
